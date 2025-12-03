@@ -1,22 +1,26 @@
 // Fetch all products from DummyJSON API
 export async function fetchProducts() {
-  const response = await fetch("https://dummyjson.com/products");
+  try {
+    const res = await fetch("https://dummyjson.com/products");
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch product list");
+    if (!res.ok) throw new Error("Unable to load product list");
+
+    const data = await res.json();
+    return data.products;
+  } catch (err) {
+    throw new Error(err.message || "Error fetching products");
   }
-
-  const data = await response.json();
-  return data.products; // API returns { products: [...] }
 }
 
 // Fetch a single product by ID
 export async function fetchProductById(id) {
-  const response = await fetch(`https://dummyjson.com/products/${id}`);
+  try {
+    const res = await fetch(`https://dummyjson.com/products/${id}`);
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch product details");
+    if (!res.ok) throw new Error("Product not found");
+
+    return await res.json();
+  } catch (err) {
+    throw new Error(err.message || "Error fetching product");
   }
-
-  return await response.json();
 }
