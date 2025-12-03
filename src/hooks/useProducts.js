@@ -1,20 +1,25 @@
-import { useState, useEffect } from 'react'
-import { fetchJSON } from '../api'
+import { useEffect, useState } from "react";
+import { fetchProducts } from "../api";
 
-export default function useProducts(){
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+export default function useProducts() {
+  const [products, setProducts] = useState([]); // store product list
+  const [loading, setLoading] = useState(true); // loading indicator
+  const [error, setError] = useState(null); // error message
 
   useEffect(() => {
-    let mounted = true
-    setLoading(true)
-    fetchJSON('https://dummyjson.com/products')
-      .then(data => mounted && setProducts(data.products || []))
-      .catch(err => mounted && setError(err.message))
-      .finally(() => mounted && setLoading(false))
-    return () => { mounted = false }
-  }, [])
+    async function loadProducts() {
+      try {
+        const data = await fetchProducts(); // API call
+        setProducts(data);
+      } catch (err) {
+        setError(err.message); // store error
+      } finally {
+        setLoading(false); // stop loading
+      }
+    }
 
-  return { products, loading, error }
+    loadProducts();
+  }, []);
+
+  return { products, loading, error };
 }
