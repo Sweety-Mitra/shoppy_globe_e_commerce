@@ -1,32 +1,58 @@
+import React, { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
+// Lazy load route components for code-splitting
+const App = lazy(() => import("./App"));
+const ProductDetail = lazy(() => import("./components/ProductDetail"));
+const Cart = lazy(() => import("./components/Cart"));
+const Checkout = lazy(() => import("./components/Checkout"));
+const NotFound = lazy(() => import("./components/NotFound"));
 
-// Components
-import App from "./App";
-import ProductDetail from "./components/ProductDetail";
-import Cart from "./components/Cart";
-import Checkout from "./components/Checkout";
-import NotFound from "./components/NotFound";
-
-export default createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // App will show Header + ProductList
-    errorElement: <NotFound />, // fallback UI
+    element: (
+      <Suspense fallback={<div style={{padding:20}}>Loading app...</div>}>
+        <App />
+      </Suspense>
+    ),
+    errorElement: (
+      <Suspense fallback={<div style={{padding:20}}>Loading...</div>}>
+        <NotFound />
+      </Suspense>
+    )
   },
   {
-    path: "/product/:id", // dynamic product route
-    element: <ProductDetail />,
+    path: "/product/:id",
+    element: (
+      <Suspense fallback={<div style={{padding:20}}>Loading product...</div>}>
+        <ProductDetail />
+      </Suspense>
+    )
   },
   {
     path: "/cart",
-    element: <Cart />,
+    element: (
+      <Suspense fallback={<div style={{padding:20}}>Loading cart...</div>}>
+        <Cart />
+      </Suspense>
+    )
   },
   {
     path: "/checkout",
-    element: <Checkout />,
+    element: (
+      <Suspense fallback={<div style={{padding:20}}>Loading checkout...</div>}>
+        <Checkout />
+      </Suspense>
+    )
   },
   {
-    path: "*", // unknown URLs
-    element: <NotFound />,
-  },
+    path: "*",
+    element: (
+      <Suspense fallback={<div style={{padding:20}}>Loading...</div>}>
+        <NotFound />
+      </Suspense>
+    )
+  }
 ]);
+
+export default router;
