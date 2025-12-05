@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
  
 
 export default function Checkout() {
-  const cart = useSelector((state) => state.cart.items);
+  const cart = useSelector((state) => state.cart.items || []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -69,6 +69,7 @@ export default function Checkout() {
           placeholder="Full Address"
           value={form.address}
           onChange={handleChange}
+          rows={6}
         />
       </div>
 
@@ -76,16 +77,18 @@ export default function Checkout() {
       <div className="order-summary">
         <h3>Order Summary</h3>
 
-        {cart.map((item) => (
-          <div className="summary-item" key={item.id}>
-            <p>
-              <strong>{item.title}</strong> × {item.quantity}
-            </p>
-            <p>₹ {item.price * item.quantity}</p>
-          </div>
-        ))}
+        {cart.length === 0 ? <p>No items in cart.</p> : (
+          <>
+            {cart.map((item) => (
+              <div className="summary-item" key={item.id}>
+                <p><strong>{item.title}</strong> × {item.quantity}</p>
+                <p>₹ {item.price * item.quantity}</p>
+              </div>
+            ))}
 
-        <h3 className="total-amount">Total: ₹ {total}</h3>
+            <h3 className="total-amount">Total: ₹ {total}</h3>
+          </>
+        )}
       </div>
 
       {/* -------------------- PLACE ORDER BUTTON -------------------- */}
