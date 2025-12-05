@@ -1,22 +1,26 @@
 import { useRouteError, Link } from "react-router-dom";
 
 export default function NotFound() {
-  const error = useRouteError(); // get full error (status + message)
+  const error = useRouteError();
 
   return (
-    <div style={{ textAlign: "center", marginTop: "40px" }}>
-      <h1>404 - Page Not Found</h1>
-      <p>Something went wrong.</p>
+    <div className="notfound-wrap">
+      <div className="notfound-card">
+        <h1>404</h1>
+        <h2>Page not found</h2>
+        <p>We couldn't find the page you're looking for.</p>
 
-      {/* show the actual error to help debugging or for marks */}
-      <pre style={{ color: "red" }}>
-        {error?.statusText || error?.message}
-      </pre>
+        <div className="error-details">
+          <strong>Details:</strong>
+          <pre>{error?.status ? `Status: ${error.status}\n` : ""}{error?.statusText || error?.message}</pre>
+        </div>
 
-      {/* button that takes user back to home */}
-      <Link to="/">
-        <button>Back to Home</button>
-      </Link>
+        <div style={{ marginTop: 12 }}>
+          <Link to="/">
+            <button>Back to Home</button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

@@ -7,7 +7,7 @@ export default function App() {
     <div className="app-container">
       <Header />
 
-      {/* Hero / banner — required for Home */}
+      {/* Hero required for Home */}
       <section className="hero">
         <div className="hero-inner">
           <h1>Welcome to ShoppyGlobe</h1>
