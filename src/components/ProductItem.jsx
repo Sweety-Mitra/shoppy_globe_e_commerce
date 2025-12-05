@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
+
 
 export default function ProductItem({ product }) {
   const dispatch = useDispatch();
@@ -11,21 +13,29 @@ export default function ProductItem({ product }) {
     dispatch(addToCart(product)); // add item to cart
   };
 
+  const navigate = useNavigate();
+
+  const goToDetails = () => {
+    navigate(`/product/${product.id}`); // open details page
+  };
+
   return (
-    <div className="product-card" role="article">
-      <img src={product.thumbnail} alt={product.title} loading="lazy" /> {/* product image */}
-      <h3>{product.title}</h3> {/* product title */}
-      <p>₹ {product.price}</p> {/* product price */}
+  <div className="product-card" role="article">
+    <img src={product.thumbnail} alt={product.title} loading="lazy" /> {/* img */}
+    <h3>{product.title}</h3> {/* title */}
+    <p>₹ {product.price}</p> {/* price */}
 
-      <div className="actions"> {/* buttons row */}
-        <Link to={`/product/${product.id}`}>
-          <button className="ghost" type="button">View Details</button> {/* open details page */}
-        </Link>
+    <div className="actions"> {/* buttons row */}
+      <button className="ghost" type="button" onClick={goToDetails}>
+        View Details
+      </button> {/* open details */}
 
-        <button onClick={handleAdd} type="button">Add to Cart</button> {/* add to cart */}
-      </div>
+      <button onClick={handleAdd} type="button">
+        Add to Cart
+      </button> {/* add */}
     </div>
-  );
+  </div>
+);
 }
 
 ProductItem.propTypes = {
