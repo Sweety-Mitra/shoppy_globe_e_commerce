@@ -7,30 +7,67 @@ export default function Cart() {
   const items = useSelector((state) => state.cart.items || []);
   const navigate = useNavigate();
 
-  const total = items.reduce((sum, it) => sum + it.price * it.quantity, 0);
+  const subtotal = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Your Cart</h2>
+    <div className="cart-page">
+      {/* Title */}
+      <div className="cart-header">
+        <h1>Shopping Cart</h1>
+        <span className="item-count">{items.length} items</span>
+      </div>
 
+      {/* Empty State */}
       {items.length === 0 ? (
-        <div>
+        <div className="empty-cart">
           <p>Your cart is empty.</p>
-          <button onClick={() => navigate("/")} className="link-like">Continue shopping</button>
+          <button onClick={() => navigate("/")} className="continue-btn">
+            Continue Shopping
+          </button>
         </div>
       ) : (
-        <div>
-          <div className="cart-list" role="list">
+        <div className="cart-layout">
+          {/* LEFT — Cart Items */}
+          <div className="cart-items-box">
             {items.map((item) => (
               <CartItem key={item.id} item={item} />
             ))}
           </div>
 
-          <div style={{ marginTop: 12 }}>
-            <h3>Total: ₹ {total}</h3>
-            <div style={{ marginTop: 8 }}>
-              <button onClick={() => navigate("/checkout")}>Go to Checkout</button>
+          {/* RIGHT — Order Summary */}
+          <div className="summary-box">
+            <h2>Order Summary</h2>
+
+            <div className="summary-row">
+              <span>Subtotal ({items.length} items)</span>
+              <strong>₹ {subtotal.toFixed(2)}</strong>
             </div>
+
+            <div className="summary-row">
+              <span>Shipping</span>
+              <span className="free">FREE</span>
+            </div>
+
+            <hr />
+
+            <div className="summary-total">
+              <span>Total</span>
+              <strong>₹ {subtotal.toFixed(2)}</strong>
+            </div>
+
+            <button
+              className="checkout-btn"
+              onClick={() => navigate("/checkout")}
+            >
+              Proceed to Checkout →
+            </button>
+
+            <button className="continue-small" onClick={() => navigate("/")}>
+              ⬅ Continue Shopping
+            </button>
           </div>
         </div>
       )}

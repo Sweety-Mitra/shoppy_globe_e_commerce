@@ -16,40 +16,50 @@ export default function CartItem({ item }) {
 
   return (
     <div className="cart-item" role="listitem">
-      <img src={item.thumbnail} alt={item.title} loading="lazy" /> {/* image */}
+      
+      {/* product image */}
+      <img 
+        src={item.thumbnail} 
+        alt={item.title} 
+        loading="lazy" 
+        className="cart-img"
+      />
 
-      <div style={{ flex: 1 }}>
-        <strong>{item.title}</strong> {/* title */}
-        <p>₹ {item.price} each</p> {/* price */}
+      {/* center block */}
+      <div className="cart-info">
+        <strong className="cart-title">{item.title}</strong>
+        <p className="cart-price">₹ {item.price} each</p>
 
-        <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
-          <button onClick={dec} className="ghost">-</button> {/* minus */}
-          <span>{item.quantity}</span> {/* qty */}
-          <button onClick={inc} className="ghost">+</button> {/* plus */}
+        {/* qty + remove */}
+        <div className="cart-actions">
+          <button onClick={dec} className="qty-btn">-</button>
+          <span className="qty-display">{item.quantity}</span>
+          <button onClick={inc} className="qty-btn">+</button>
 
-          <button
+          <button 
             onClick={() => dispatch(removeFromCart(item.id))}
-            style={{ marginLeft: 12 }}
-            className="ghost"
+            className="remove-btn"
           >
-            Remove {/* delete */}
+            Remove
           </button>
         </div>
       </div>
 
-      <div style={{ minWidth: 80, textAlign: "right" }}>
-        <p>₹ {item.price * item.quantity}</p> {/* total */}
+      {/* price block */}
+      <div className="cart-total">
+        <p>₹ {(item.price * item.quantity).toFixed(2)}</p>
       </div>
+
     </div>
   );
 }
 
 CartItem.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // id
-    title: PropTypes.string.isRequired, // name
-    price: PropTypes.number.isRequired, // price
-    thumbnail: PropTypes.string, // img
-    quantity: PropTypes.number.isRequired // qty
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string,
+    quantity: PropTypes.number.isRequired
   }).isRequired
 };
