@@ -7,8 +7,12 @@ export default function CartItem({ item }) {
   const dispatch = useDispatch();
 
   const dec = () => {
-    if (item.quantity > 1) dispatch(decrementQty(item.id)); // decrease qty
-  };
+  if (item.quantity > 1) {
+    dispatch(decrementQty(item.id)); 
+  } else {
+    alert("🚫 Quantity cannot be less than 1"); // decrease qty
+  }
+};
 
   const inc = () => {
     dispatch(incrementQty(item.id)); // increase qty

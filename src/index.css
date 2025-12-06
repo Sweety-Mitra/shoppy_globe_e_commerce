@@ -1,9 +1,13 @@
-body {
-  width: 100vw;
-  overflow-x: hidden; 
+html,body {
+  width: 100%;
+  overflow-x: hidden !important; 
   padding: 0px !important;
   margin: 0px !important;
 }
+
+/* * {
+  box-sizing: border-box;
+} */
 
 .header {
   position: fixed;
@@ -357,7 +361,7 @@ button {
 
 /* HERO SECTION */
 .hero {
-  width: 100vw;
+  width: 100%;
   min-height: 75vh;
   display: flex;
   justify-content: center;
@@ -376,6 +380,12 @@ button {
 .hero-inner {
   max-width: 700px;
   padding: 20px;
+}
+
+@media (min-width: 1100px) {
+  .hero-new {
+    margin-right: 250px;
+  }
 }
 
 /* Title */

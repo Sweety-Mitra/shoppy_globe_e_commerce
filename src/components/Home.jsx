@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <div className="hero-inner">
+        <div className="hero-inner hero-new">
           <h1>Welcome to ShoppyGlobe</h1>
           <p>Explore trending products — fast delivery, trusted sellers.</p>
 
