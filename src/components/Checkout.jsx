@@ -4,81 +4,81 @@ import { clearCart } from "../redux/cartSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
-  const cart = useSelector((state) => state.cart.items || []);
+  const cart = useSelector( ( state ) => state.cart.items || [] );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // form state
-  const [form, setForm] = useState({
+  const [ form, setForm ] = useState( {
     name: "",
     email: "",
     phone: "",
     address: "",
     pincode: ""
-  });
+  } );
 
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [ submitting, setSubmitting ] = useState( false );
+  const [ success, setSuccess ] = useState( false );
+  const [ errors, setErrors ] = useState( {} );
 
   // NEW: auto redirect if empty cart
-  useEffect(() => {
-    if (cart.length === 0) {
-      setErrors({ cart: "Your cart is empty. Redirecting to Home..." });
-      setTimeout(() => navigate("/"), 3000);
+  useEffect( () => {
+    if ( cart.length === 0 ) {
+      setErrors( { cart: "Your cart is empty. Redirecting to Home..." } );
+      setTimeout( () => navigate( "/" ), 3000 );
     }
-  }, [cart, navigate]);
+  }, [ cart, navigate ] );
 
   // derived total
   const total = useMemo(
-    () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cart]
+    () => cart.reduce( ( sum, item ) => sum + item.price * item.quantity, 0 ),
+    [ cart ]
   );
 
-  const handleChange = (e) => {
-    setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
-    setErrors((s) => ({ ...s, [e.target.name]: "" }));
+  const handleChange = ( e ) => {
+    setForm( ( s ) => ( { ...s, [ e.target.name ]: e.target.value } ) );
+    setErrors( ( s ) => ( { ...s, [ e.target.name ]: "" } ) );
   };
 
   // basic validation
   const validate = () => {
     const err = {};
-    if (!form.name.trim()) err.name = "Name is required";
-    if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email)) err.email = "Valid email required";
-    if (!form.phone.trim() || !/^[0-9]{7,15}$/.test(form.phone)) err.phone = "Valid phone required";
-    if (!form.address.trim()) err.address = "Address is required";
-    if (!form.pincode.trim()) err.pincode = "Pincode required";
-    setErrors(err);
-    return Object.keys(err).length === 0;
+    if ( !form.name.trim() ) err.name = "Name is required";
+    if ( !form.email.trim() || !/^\S+@\S+\.\S+$/.test( form.email ) ) err.email = "Valid email required";
+    if ( !form.phone.trim() || !/^[0-9]{7,15}$/.test( form.phone ) ) err.phone = "Valid phone required";
+    if ( !form.address.trim() ) err.address = "Address is required";
+    if ( !form.pincode.trim() ) err.pincode = "Pincode required";
+    setErrors( err );
+    return Object.keys( err ).length === 0;
   };
 
   const placeOrder = () => {
-    if (cart.length === 0) {
-      setErrors({ cart: "Your cart is empty." });
+    if ( cart.length === 0 ) {
+      setErrors( { cart: "Your cart is empty." } );
       return;
     }
 
-    if (!validate()) return;
+    if ( !validate() ) return;
 
-    setSubmitting(true);
+    setSubmitting( true );
 
     // mimic network delay & show success message
-    setTimeout(() => {
-      dispatch(clearCart()); // clear cart
-      setSuccess(true);
-      setSubmitting(false);
+    setTimeout( () => {
+      dispatch( clearCart() ); // clear cart
+      setSuccess( true );
+      setSubmitting( false );
       // redirect after short delay
-      setTimeout(() => navigate("/"), 900);
-    }, 700);
+      setTimeout( () => navigate( "/" ), 1500 );
+    }, 700 );
   };
 
   return (
     <div className="checkout-container">
       <h2>Checkout</h2>
 
-      {/* -------------------- CUSTOMER DETAILS -------------------- */}
+      {/* -------------------- CUSTOMER DETAILS -------------------- */ }
       <div className="checkout-grid">
-        {/* Customer details */}
+        {/* Customer details */ }
         <div className="customer-section">
           <h3>Customer Details</h3>
 
@@ -86,89 +86,96 @@ export default function Checkout() {
             type="text"
             name="name"
             placeholder="Full Name"
-            value={form.name}
-            onChange={handleChange}
-            aria-invalid={!!errors.name}
+            value={ form.name }
+            onChange={ handleChange }
+            aria-invalid={ !!errors.name }
           />
-          {errors.name && <div className="field-error">{errors.name}</div>}
+          { errors.name && <div className="field-error">{ errors.name }</div> }
 
           <input
             type="email"
             name="email"
             placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-            aria-invalid={!!errors.email}
+            value={ form.email }
+            onChange={ handleChange }
+            aria-invalid={ !!errors.email }
           />
-          {errors.email && <div className="field-error">{errors.email}</div>}
+          { errors.email && <div className="field-error">{ errors.email }</div> }
 
           <input
             type="tel"
             name="phone"
             placeholder="Phone"
-            value={form.phone}
-            onChange={handleChange}
-            aria-invalid={!!errors.phone}
+            value={ form.phone }
+            onChange={ handleChange }
+            aria-invalid={ !!errors.phone }
           />
-          {errors.phone && <div className="field-error">{errors.phone}</div>}
+          { errors.phone && <div className="field-error">{ errors.phone }</div> }
 
           <textarea
             name="address"
             placeholder="Full Address"
-            value={form.address}
-            onChange={handleChange}
-            rows={4}
-            aria-invalid={!!errors.address}
+            value={ form.address }
+            onChange={ handleChange }
+            rows={ 4 }
+            aria-invalid={ !!errors.address }
           />
-          {errors.address && <div className="field-error">{errors.address}</div>}
+          { errors.address && <div className="field-error">{ errors.address }</div> }
 
           <input
             type="text"
             name="pincode"
             placeholder="Pincode"
-            value={form.pincode}
-            onChange={handleChange}
-            aria-invalid={!!errors.pincode}
+            value={ form.pincode }
+            onChange={ handleChange }
+            aria-invalid={ !!errors.pincode }
           />
-          {errors.pincode && <div className="field-error">{errors.pincode}</div>}
+          { errors.pincode && <div className="field-error">{ errors.pincode }</div> }
         </div>
 
-        {/* -------------------- ORDER SUMMARY -------------------- */}
+        {/* -------------------- ORDER SUMMARY -------------------- */ }
         <div className="order-summary">
           <h3>Order Summary</h3>
 
-          {cart.length === 0 ? (
+          { cart.length === 0 ? (
             <p>No items in cart.</p>
           ) : (
             <>
               <div className="summary-list">
-                {cart.map((item) => (
-                  <div className="summary-item" key={item.id}>
+                { cart.map( ( item ) => (
+                  <div className="summary-item" key={ item.id }>
                     <div>
-                      <strong>{item.title}</strong>
-                      <div className="muted">Qty × {item.quantity}</div>
+                      <strong>{ item.title }</strong>
+                      <div className="muted">Qty × { item.quantity }</div>
                     </div>
-                    <div>₹ {item.price * item.quantity}</div>
+                    <div>₹ { item.price * item.quantity }</div>
                   </div>
-                ))}
+                ) ) }
               </div>
 
-              <h3 className="total-amount">Total: ₹ {total}</h3>
+              <h3 className="total-amount">Total: ₹ { total }</h3>
             </>
-          )}
+          ) }
 
-          {errors.cart && <div className="field-error">{errors.cart}</div>}
+          { errors.cart && <div className="field-error">{ errors.cart }</div> }
 
-          {/* -------------------- PLACE ORDER BUTTON -------------------- */}
+          {/* -------------------- PLACE ORDER BUTTON -------------------- */ }
           <button
-            onClick={placeOrder}
-            disabled={submitting || cart.length === 0}
+            onClick={ placeOrder }
+            disabled={ submitting || cart.length === 0 }
             className="place-order"
           >
-            {submitting ? "Placing order..." : "Place Order"}
+            { submitting ? "Placing order..." : "Place Order" }
           </button>
 
-          {success && <div className="success-msg">Order placed — redirecting to Home</div>}
+          { success && (
+            <div className="order-popup">
+              <div className="order-popup-card">
+                <h3>Order Placed Successfully 🎉</h3>
+                <p>You will be redirected to Home in a moment...</p>
+              </div>
+            </div>
+          ) }
         </div>
       </div>
     </div>
