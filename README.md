@@ -85,7 +85,7 @@ git clone https://github.com/Sweety-Mitra/shoppy_globe_e_commerce.git
 
 ### 2. Navigate into the Project Directory
 ```bash
-cd ShoppyGlobe_E_Commerce
+cd shoppy_globe_e_commerce
 ```
 
 ### 3. Install Dependencies
