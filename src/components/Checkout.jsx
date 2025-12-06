@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../redux/cartSlice";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,14 @@ export default function Checkout() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // NEW: auto redirect if empty cart
+  useEffect(() => {
+    if (cart.length === 0) {
+      setErrors({ cart: "Your cart is empty. Redirecting to Home..." });
+      setTimeout(() => navigate("/"), 3000);
+    }
+  }, [cart, navigate]);
 
   // derived total
   const total = useMemo(
