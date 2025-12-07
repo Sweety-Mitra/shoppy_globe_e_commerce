@@ -6,7 +6,7 @@
 
 ## 🔗 Live Demo
 
-    
+    https://shoppy-globe-e-commerce-psi.vercel.app/
 
 ---
 
