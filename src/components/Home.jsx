@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
-import ProductList from "./ProductList";
+
+const ProductList = React.lazy(() => import("./ProductList")); // lazy loaded
 
 export default function Home() {
   return (
